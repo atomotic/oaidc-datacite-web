@@ -1,0 +1,71 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    
+    $('.submitdoi').submit(function() {
+      $("#doi").hide();
+      $("#apiresult").html('<img src="/loading.gif" />');
+      $("#apiresult").load("/mint", {
+        'doi': $("#doi").val(),
+        'url': $("#url").val(),
+        'identifier': '<%= @oaiid %>'
+      });
+    });
+
+    $('.metadata').load("/metadata", {'identifier': '<%= @oaiid %>'});
+
+    $(".doi").change(
+      function(){
+          $('.metadata').fadeOut().load("/metadata",
+          {
+            'identifier': '<%= @oaiid %>',
+            'doi': $('#doi').val()
+          }, 
+          function() {
+            $(this).fadeIn();
+          });
+      }
+    );
+
+
+  });
+</script>
+
+
+<form method="POST" class="submitdoi" action="javascript: void(0);">
+
+
+<table class="table table-bordered">
+  <tr>
+    <td>ID</td>
+    <td> <%= @id %> </td>
+  </tr>
+
+  <tr>
+  	<td>OAI_ID</td>
+	  <td>
+      <a href="<%= @oai %>?verb=GetRecord&metadataPrefix=oai_dc&identifier=<%= @oaiid %>" target="_blank"><%= @oaiid %></a>
+    </td>
+  </tr>
+  
+  <tr>
+  	<td>
+      <button type="submit" class="btn">DOI</button>
+    </td>
+	  
+    <td>
+      <input type="hidden" id="url" name="url" value="<%= @humanpage %>">
+      <input type="text"  id="doi" class="doi" name="doi" value="<%= @doi %>" style="color: red;">
+      <div id="apiresult"></div>
+    </td>
+  </tr>
+  
+  <tr>
+  	<td>metadata</td>
+  	<!-- <td><pre style="font-size: 9px;"><%= @metadatahtml %></pre></td> -->
+    <td><pre style="font-size: 9px;"><div class="metadata"></div></pre></td>
+    
+  </tr>
+
+</table>
+
+</form>

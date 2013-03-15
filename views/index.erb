@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link href="/css/bootstrap.css" rel="stylesheet">
+<link href="/css/bootstrap-responsive.css" rel="stylesheet">
+
+<style>
+ body { margin-top: 30px; }
+</style>
+
+<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('form').submit(function() {
+			$("#result").html('<img src="/loading.gif" />');
+			$('#result').load("/process", {
+				'humanpage': $("#humanpage").val(),
+				'oai': $("#oai").val()
+			}
+			); 
+		});
+	});
+</script>
+</head>
+
+<body>
+	<div class="container">
+
+		<div class="page-header">
+		  <h1>oai record to datacite</h1>
+		</div>
+
+		<div class="row">
+			<div class="span4">
+				<form method="post" action="javascript: void(0);">
+				
+				<label class="control-label" for="url">URL</label>
+				<input type="text" class="input-xlarge" id="humanpage">
+				
+				<label class="control-label" for="oai">OAI</label>
+				<input type="text" class="input-xlarge" id="oai"><br/>
+				
+				<button type="submit" class="btn" id="process">process</button>
+				
+				</form>
+			</div> 
+			<div class="span8" id="result"></div>
+		</div>
+	</div>
+
+</body>
+</html>
